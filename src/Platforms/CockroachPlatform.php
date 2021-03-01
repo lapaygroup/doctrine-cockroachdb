@@ -9,7 +9,7 @@ class CockroachPlatform extends PostgreSQL100Platform
     /**
      * {@inheritDoc}
      */
-    public function getListNamespacesSQL()
+    public function getListNamespacesSQL(): string
     {
         return "SELECT schema_name AS nspname
                 FROM   information_schema.schemata
@@ -21,7 +21,7 @@ class CockroachPlatform extends PostgreSQL100Platform
     /**
      * {@inheritDoc}
      */
-    public function getListSequencesSQL($database)
+    public function getListSequencesSQL($database): string
     {
         return "SELECT sequence_name AS relname,
                        sequence_schema AS schemaname
@@ -34,7 +34,7 @@ class CockroachPlatform extends PostgreSQL100Platform
     /**
      * {@inheritDoc}
      */
-    public function getListTablesSQL()
+    public function getListTablesSQL(): string
     {
         return "SELECT quote_ident(table_name) AS table_name,
                        table_schema AS schema_name
