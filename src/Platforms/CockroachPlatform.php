@@ -57,8 +57,19 @@ class CockroachPlatform extends PostgreSQL100Platform
         $this->doctrineTypeMapping = array_merge($this->doctrineTypeMapping, [
             '_text' => 'string',
             '_int8' => 'integer',
-            'int8' => 'integer',
             'int2vector' => 'array',
         ]);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getIntegerTypeDeclarationSQL(array $column)
+    {
+        if (! empty($column['autoincrement'])) {
+            return 'SERIAL';
+        }
+
+        return 'INT4';
     }
 }
