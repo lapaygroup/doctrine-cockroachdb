@@ -10,7 +10,7 @@
 
 Driver for supports CockroachDB in Doctrine DBAL. 
 
-Symfony DBAL configuration example:
+Symfony configuration example:
 ```yaml
 # doctrine.yaml
 doctrine:
@@ -23,3 +23,15 @@ doctrine:
         driver_class: LapayGroup\DoctrineCockroach\Driver\CockroachDriver
 ```
 
+```yaml
+# services.yaml
+services:
+  LapayGroup\DoctrineCockroach\Platforms\CockroachPlatform:
+    autowire: true
+
+  LapayGroup\DoctrineCockroach\Driver\CockroachDriver:
+    autowire: true
+
+  LapayGroup\DoctrineCockroach\Schema\CockroachSchemaManager:
+    autowire: true
+```
