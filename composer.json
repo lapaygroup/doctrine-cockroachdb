@@ -1,5 +1,5 @@
 {
-  "name": "lapaygroup/doctrine-pdo-dblib",
+  "name": "lapaygroup/doctrine-cockroachdb",
   "type": "library",
   "description": "Doctrine CockroachDB Driver (Symfony supports)",
   "keywords": ["pdo_pgsql","pdo","cockroach","cockroachdb","doctrine","doctrine-cockroachdb"],
