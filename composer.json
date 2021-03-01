@@ -1,0 +1,36 @@
+{
+  "name": "lapaygroup/doctrine-pdo-dblib",
+  "type": "library",
+  "description": "Doctrine CockroachDB Driver (Symfony supports)",
+  "keywords": ["pdo_pgsql","pdo","cockroach","cockroachdb","doctrine","doctrine-cockroachdb"],
+  "license": "MIT",
+  "minimum-stability": "stable",
+  "support": {
+    "issues": "https://github.com/lapaygroup/doctrine-cockroachdb/issues",
+    "source": "https://github.com/lapaygroup/doctrine-cockroachdb"
+  },
+  "authors": [
+    {
+      "name": "Dolf Schimmel",
+      "email": "dolf@dolfschimmel.nl"
+    },
+    {
+      "name": "Nikolay Lapay",
+      "email": "nl@wildtuna.pro"
+    }
+  ],
+  "require": {
+    "php": ">=5.5",
+    "ext-pdo": "*",
+    "ext-iconv": "*",
+    "doctrine/dbal": ">=2.1.0"
+  },
+  "autoload": {
+    "psr-0": {
+      "LapayGroup\\DoctrineCockroach": "src/"
+    },
+    "psr-4": {
+      "LapayGroup\\DoctrineCockroach\\": "src/"
+    }
+  }
+}
