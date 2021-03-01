@@ -5,6 +5,7 @@ namespace LapayGroup\DoctrineCockroach\Driver;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Driver\PDOPgSql;
 use Doctrine\DBAL\Driver\PDO;
+use LapayGroup\DoctrineCockroach\Schema\CockroachSchemaManager;
 
 
 /**
