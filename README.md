@@ -22,3 +22,4 @@ doctrine:
         platform_service: LapayGroup\DoctrineCockroach\Platforms\CockroachPlatform
         driver_class: LapayGroup\DoctrineCockroach\Driver\CockroachDriver
 ```
+

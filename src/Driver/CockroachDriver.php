@@ -14,7 +14,6 @@ use Doctrine\DBAL\Driver\PDO;
  */
 class CockroachDriver extends PDOPgSql\Driver
 {
-
     /**
      * {@inheritdoc}
      */
@@ -32,5 +31,4 @@ class CockroachDriver extends PDOPgSql\Driver
     {
         return new CockroachSchemaManager($conn);
     }
-
 }

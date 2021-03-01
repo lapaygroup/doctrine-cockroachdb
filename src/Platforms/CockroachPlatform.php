@@ -4,8 +4,8 @@ namespace LapayGroup\DoctrineCockroach\Platforms;
 
 use Doctrine\DBAL\Platforms\PostgreSQL100Platform;
 
-class CockroachPlatform extends PostgreSQL100Platform {
-
+class CockroachPlatform extends PostgreSQL100Platform
+{
     /**
      * {@inheritDoc}
      */
