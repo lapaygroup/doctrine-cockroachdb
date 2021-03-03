@@ -8,7 +8,7 @@
 
 # CockroachDB Driver
 
-Driver for supports CockroachDB in Doctrine DBAL. 
+Driver for supports CockroachDB in Doctrine DBAL. This library fixes errors related doctrine:migrations when using PostgreSQL driver.
 
 Symfony configuration example:
 ```yaml
