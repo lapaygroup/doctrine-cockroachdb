@@ -3,6 +3,7 @@
 namespace LapayGroup\DoctrineCockroach\Platforms;
 
 use Doctrine\DBAL\Platforms\PostgreSQL100Platform;
+use Doctrine\DBAL\Schema\ForeignKeyConstraint;
 
 class CockroachPlatform extends PostgreSQL100Platform
 {
@@ -71,5 +72,37 @@ class CockroachPlatform extends PostgreSQL100Platform
         }
 
         return 'INT4';
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getAdvancedForeignKeyOptionsSQL(ForeignKeyConstraint $foreignKey)
+    {
+        $query = '';
+
+        if ($foreignKey->hasOption('match')) {
+            $query .= ' MATCH ' . $foreignKey->getOption('match');
+        }
+
+        $query .= parent::getAdvancedForeignKeyOptionsSQL($foreignKey);
+
+        // Waiting for resolved https://github.com/cockroachdb/cockroach/issues/31632
+        /*if ($foreignKey->hasOption('deferrable') && $foreignKey->getOption('deferrable') !== false) {
+            $query .= ' DEFERRABLE';
+        } else {
+            $query .= ' NOT DEFERRABLE';
+        }
+
+        if (
+            ($foreignKey->hasOption('feferred') && $foreignKey->getOption('feferred') !== false)
+            || ($foreignKey->hasOption('deferred') && $foreignKey->getOption('deferred') !== false)
+        ) {
+            $query .= ' INITIALLY DEFERRED';
+        } else {
+            $query .= ' INITIALLY IMMEDIATE';
+        }*/
+
+        return $query;
     }
 }
