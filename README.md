@@ -23,6 +23,16 @@ doctrine:
         driver_class: LapayGroup\DoctrineCockroach\Driver\CockroachDriver
 ```
 
+Connection url style:
+```yaml
+# doctrine.yaml
+doctrine:
+    dbal:
+        url: //root:@localhost:26257/database_name
+        platform_service: LapayGroup\DoctrineCockroach\Platforms\CockroachPlatform
+        driver_class: LapayGroup\DoctrineCockroach\Driver\CockroachDriver
+```
+
 ```yaml
 # services.yaml
 services:

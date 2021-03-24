@@ -5,6 +5,7 @@ namespace LapayGroup\DoctrineCockroach\Driver;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Driver\PDOPgSql;
 use Doctrine\DBAL\Driver\PDO;
+use LapayGroup\DoctrineCockroach\Platforms\CockroachPlatform;
 use LapayGroup\DoctrineCockroach\Schema\CockroachSchemaManager;
 
 
@@ -28,6 +29,25 @@ class CockroachDriver extends PDOPgSql\Driver
         return $pdo;
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function getDatabasePlatform()
+    {
+        return new CockroachPlatform();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function createDatabasePlatformForVersion($version)
+    {
+        return new CockroachPlatform();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getSchemaManager(Connection $conn)
     {
         return new CockroachSchemaManager($conn);

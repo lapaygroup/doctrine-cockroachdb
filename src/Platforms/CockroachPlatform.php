@@ -79,29 +79,20 @@ class CockroachPlatform extends PostgreSQL100Platform
      */
     public function getAdvancedForeignKeyOptionsSQL(ForeignKeyConstraint $foreignKey)
     {
+        // Waiting for resolved https://github.com/cockroachdb/cockroach/issues/31632
         $query = '';
 
         if ($foreignKey->hasOption('match')) {
             $query .= ' MATCH ' . $foreignKey->getOption('match');
         }
 
-        $query .= parent::getAdvancedForeignKeyOptionsSQL($foreignKey);
-
-        // Waiting for resolved https://github.com/cockroachdb/cockroach/issues/31632
-        /*if ($foreignKey->hasOption('deferrable') && $foreignKey->getOption('deferrable') !== false) {
-            $query .= ' DEFERRABLE';
-        } else {
-            $query .= ' NOT DEFERRABLE';
+        if (parent::supportsForeignKeyOnUpdate() && $foreignKey->hasOption('onUpdate')) {
+            $query .= ' ON UPDATE ' . parent::getForeignKeyReferentialActionSQL($foreignKey->getOption('onUpdate'));
         }
 
-        if (
-            ($foreignKey->hasOption('feferred') && $foreignKey->getOption('feferred') !== false)
-            || ($foreignKey->hasOption('deferred') && $foreignKey->getOption('deferred') !== false)
-        ) {
-            $query .= ' INITIALLY DEFERRED';
-        } else {
-            $query .= ' INITIALLY IMMEDIATE';
-        }*/
+        if ($foreignKey->hasOption('onDelete')) {
+            $query .= ' ON DELETE ' . parent::getForeignKeyReferentialActionSQL($foreignKey->getOption('onDelete'));
+        }
 
         return $query;
     }
