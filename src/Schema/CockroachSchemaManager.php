@@ -18,15 +18,21 @@ class CockroachSchemaManager extends PostgreSqlSchemaManager
             $sequenceName = $sequence['relname'];
         }
 
-        if (! isset($sequence['increment_by'], $sequence['min_value'])) {
+        if (!isset($sequence['increment_by'], $sequence['min_value'])) {
             $sequence['min_value'] = 0;
             $sequence['increment_by'] = 0;
-//            /** @var string[] $data */
-//            $data = $this->_conn->fetchAssoc(
-//                'SELECT min_value, increment_by FROM ' . $this->_platform->quoteIdentifier($sequenceName)
-//            );
-//
-//            $sequence += $data;
+
+            /** @var string[] $data */
+            $data = $this->_conn->fetchAssoc('SHOW CREATE ' . $this->_platform->quoteIdentifier($sequenceName));
+            if (!empty($data['create_statement'])) {
+                $matches = [];
+                preg_match_all('/ -?\d+/', $data['create_statement'],  $matches);
+                if (!empty($matches[0])) {
+                    $matches = array_map('trim', $matches[0]);
+                    $sequence['min_value'] = $matches[0];
+                    $sequence['increment_by'] = $matches[2];
+                }
+            }
         }
 
         return new Sequence($sequenceName, (int) $sequence['increment_by'], (int) $sequence['min_value']);
