@@ -60,7 +60,9 @@ class CockroachPlatform extends PostgreSQL100Platform
     }
 
     public function getAdvancedForeignKeyOptionsSQL(ForeignKeyConstraint $foreignKey): string
-    {$query = '';
+    {
+        // Waiting for resolved https://github.com/cockroachdb/cockroach/issues/31632
+        $query = '';
 
         if ($foreignKey->hasOption('match')) {
             $query .= ' MATCH ' . $foreignKey->getOption('match');
