@@ -7,10 +7,7 @@ use Doctrine\DBAL\Schema\Sequence;
 
 class CockroachSchemaManager extends PostgreSqlSchemaManager
 {
-    /**
-     * {@inheritdoc}
-     */
-    protected function _getPortableSequenceDefinition($sequence)
+    protected function _getPortableSequenceDefinition($sequence): Sequence
     {
         if ($sequence['schemaname'] !== 'public') {
             $sequenceName = $sequence['schemaname'] . '.' . $sequence['relname'];
@@ -23,7 +20,7 @@ class CockroachSchemaManager extends PostgreSqlSchemaManager
             $sequence['increment_by'] = 0;
 
             /** @var string[] $data */
-            $data = $this->_conn->fetchAssoc('SHOW CREATE ' . $this->_platform->quoteIdentifier($sequenceName));
+            $data = $this->_conn->fetchAssociative('SHOW CREATE ' . $this->_platform->quoteIdentifier($sequenceName));
             if (!empty($data['create_statement'])) {
                 $matches = [];
                 preg_match_all('/ -?\d+/', $data['create_statement'],  $matches);
@@ -35,6 +32,6 @@ class CockroachSchemaManager extends PostgreSqlSchemaManager
             }
         }
 
-        return new Sequence($sequenceName, (int) $sequence['increment_by'], (int) $sequence['min_value']);
+        return new Sequence($sequenceName, (int) $sequence['increment_by'], $sequence['min_value']);
     }
 }

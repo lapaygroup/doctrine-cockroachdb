@@ -7,9 +7,6 @@ use Doctrine\DBAL\Schema\ForeignKeyConstraint;
 
 class CockroachPlatform extends PostgreSQL100Platform
 {
-    /**
-     * {@inheritDoc}
-     */
     public function getListNamespacesSQL(): string
     {
         return "SELECT schema_name AS nspname
@@ -19,9 +16,6 @@ class CockroachPlatform extends PostgreSQL100Platform
                 AND    schema_name != 'crdb_internal'";
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getListSequencesSQL($database): string
     {
         return "SELECT sequence_name AS relname,
@@ -32,9 +26,6 @@ class CockroachPlatform extends PostgreSQL100Platform
                 AND    sequence_schema != 'crdb_internal'";
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getListTablesSQL(): string
     {
         return "SELECT quote_ident(table_name) AS table_name,
@@ -48,10 +39,7 @@ class CockroachPlatform extends PostgreSQL100Platform
                 AND    table_schema != 'crdb_internal'";
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    protected function initializeDoctrineTypeMappings()
+    protected function initializeDoctrineTypeMappings(): void
     {
         parent::initializeDoctrineTypeMappings();
 
@@ -62,36 +50,28 @@ class CockroachPlatform extends PostgreSQL100Platform
         ]);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function getIntegerTypeDeclarationSQL(array $column)
+    public function getIntegerTypeDeclarationSQL(array $column): string
     {
         if (! empty($column['autoincrement'])) {
             return 'SERIAL';
         }
 
-        return 'INT4';
+        return 'INT';
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function getAdvancedForeignKeyOptionsSQL(ForeignKeyConstraint $foreignKey)
-    {
-        // Waiting for resolved https://github.com/cockroachdb/cockroach/issues/31632
-        $query = '';
+    public function getAdvancedForeignKeyOptionsSQL(ForeignKeyConstraint $foreignKey): string
+    {$query = '';
 
         if ($foreignKey->hasOption('match')) {
             $query .= ' MATCH ' . $foreignKey->getOption('match');
         }
 
-        if (parent::supportsForeignKeyOnUpdate() && $foreignKey->hasOption('onUpdate')) {
-            $query .= ' ON UPDATE ' . parent::getForeignKeyReferentialActionSQL($foreignKey->getOption('onUpdate'));
+        if ($this->supportsForeignKeyConstraints() && $foreignKey->hasOption('onUpdate')) {
+            $query .= ' ON UPDATE ' . $this->getForeignKeyReferentialActionSQL($foreignKey->getOption('onUpdate'));
         }
 
         if ($foreignKey->hasOption('onDelete')) {
-            $query .= ' ON DELETE ' . parent::getForeignKeyReferentialActionSQL($foreignKey->getOption('onDelete'));
+            $query .= ' ON DELETE ' . $this->getForeignKeyReferentialActionSQL($foreignKey->getOption('onDelete'));
         }
 
         return $query;
