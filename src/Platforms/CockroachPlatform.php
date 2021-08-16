@@ -56,11 +56,13 @@ class CockroachPlatform extends PostgreSQL100Platform
             return 'SERIAL';
         }
 
-        return 'INT';
+        return 'INT4';
     }
 
     public function getAdvancedForeignKeyOptionsSQL(ForeignKeyConstraint $foreignKey): string
-    {$query = '';
+    {
+        // Waiting for resolved https://github.com/cockroachdb/cockroach/issues/31632
+        $query = '';
 
         if ($foreignKey->hasOption('match')) {
             $query .= ' MATCH ' . $foreignKey->getOption('match');
