@@ -56,7 +56,7 @@ class CockroachPlatform extends PostgreSQL100Platform
             return 'SERIAL';
         }
 
-        return 'INT';
+        return 'INT4';
     }
 
     public function getAdvancedForeignKeyOptionsSQL(ForeignKeyConstraint $foreignKey): string
