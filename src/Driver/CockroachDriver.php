@@ -42,6 +42,8 @@ class CockroachDriver extends AbstractPostgreSQLDriver
                 $pdo->exec('SET NAMES \'' . $params['charset'] . '\'');
             }
 
+            $pdo->exec('SET enable_experimental_alter_column_type_general = true');
+
             return $pdo;
         } catch (PDOException $e) {
             throw Exception::driverException($this, $e);
