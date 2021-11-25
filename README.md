@@ -8,7 +8,9 @@
 
 # CockroachDB Driver
 
-Driver for supports CockroachDB in Doctrine DBAL. This library fixes errors related doctrine:migrations when using PostgreSQL driver.
+Driver for supports CockroachDB in Doctrine DBAL. This library fixes errors related doctrine:migrations when using PostgreSQL driver.    
+
+Serverless connection URL format: //clouduser:cloudpass@free-tier7.aws-eu-west-1.cockroachlabs.cloud:26257/clustername.dbname
 
 Symfony configuration example:
 ```yaml
@@ -21,6 +23,16 @@ doctrine:
         dbname: database_name
         platform_service: LapayGroup\DoctrineCockroach\Platforms\CockroachPlatform
         driver_class: LapayGroup\DoctrineCockroach\Driver\CockroachDriver
+        
+    # Serverless example
+    dbal:
+        user: wildtuna
+        password: password
+        port: 26257
+        host: free-tier7.aws-eu-west-1.cockroachlabs.cloud
+        dbname: lapaygroup-test-869.defaultdb
+        platform_service: LapayGroup\DoctrineCockroach\Platforms\CockroachPlatform
+        driver_class: LapayGroup\DoctrineCockroach\Driver\CockroachDriver
 ```
 
 Connection url style:
@@ -31,6 +43,12 @@ doctrine:
         url: //root:@localhost:26257/database_name
         platform_service: LapayGroup\DoctrineCockroach\Platforms\CockroachPlatform
         driver_class: LapayGroup\DoctrineCockroach\Driver\CockroachDriver
+        
+    # Serverless example    
+    dbal:
+        url: '//wildtuna:password@free-tier7.aws-eu-west-1.cockroachlabs.cloud:26257/lapaygroup-test-869.defaultdb'
+        platform_service: LapayGroup\DoctrineCockroach\Platforms\CockroachPlatform
+        driver_class: LapayGroup\DoctrineCockroach\Driver\CockroachDriver     
 ```
 
 ```yaml
